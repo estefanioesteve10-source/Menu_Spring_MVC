@@ -43,4 +43,11 @@ public class ProductController {
         return "Product not found";
     }
 
+    @PostMapping("/addNewProduct")  // Handles the form submission
+    public String addProduct(Product product) {
+        productsList.add(product);  // Adds the submitted product to productsList
+        System.out.println(productsList);  // Logs the updated product list
+        return "redirect:/";  // Redirects back to the main product list view
+    }
+
 }
