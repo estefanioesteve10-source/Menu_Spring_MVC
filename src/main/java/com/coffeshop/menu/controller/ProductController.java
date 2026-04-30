@@ -51,7 +51,7 @@ public class ProductController {
 
 
     @PostMapping("/addNewProduct")  // Handles the form submission
-    public String addProduct(Product product) {
+    public String addProduct(@ModelAttribute("product") Product product) {
         productList.add(product);  // Adds the submitted product to productsList
         System.out.println(productList);  // Logs the updated product list
         return "redirect:/products/list";  // Redirects back to the main product list view
