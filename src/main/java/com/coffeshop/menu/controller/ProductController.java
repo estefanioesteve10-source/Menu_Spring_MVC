@@ -3,29 +3,27 @@ package com.coffeshop.menu.controller;
 
 import com.coffeshop.menu.model.Product;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 @RequestMapping("/products")    // This means all URLs start with http://localhost:8080/products/
 public class ProductController {
 
-    private List<Product> productList = List.of(
+    private List<Product> productList = new ArrayList<>(List.of(
             new Product(1, "Espresso", 2.50),
             new Product(2, "Cappuccino", 3.00),
             new Product(3, "Latte", 3.50),
             new Product(4, "Mocha", 4.00)
-    );
+    ));
 
     @RequestMapping("/")    // This maps to the URL http://localhost:8080/products/
     public String home(){
-        return "welcome to the menu pagehome";
+        return "redirect:/products/list";
     }
 
     @RequestMapping("/list") // This maps to the URL http://localhost:8080/products/list
@@ -44,11 +42,20 @@ public class ProductController {
         return "Product not found";
     }
 
+    @RequestMapping("/add")
+    public String showProductForm(Model productAddFormModel) {
+        System.out.println("DEBUG: A aceder à página do formulário...");
+        productAddFormModel.addAttribute("product", new Product());
+        return "add-new-product";
+    }
+
+
     @PostMapping("/addNewProduct")  // Handles the form submission
     public String addProduct(Product product) {
-        productsList.add(product);  // Adds the submitted product to productsList
-        System.out.println(productsList);  // Logs the updated product list
-        return "redirect:/";  // Redirects back to the main product list view
+        productList.add(product);  // Adds the submitted product to productsList
+        System.out.println(productList);  // Logs the updated product list
+        return "redirect:/products/list";  // Redirects back to the main product list view
     }
+
 
 }
