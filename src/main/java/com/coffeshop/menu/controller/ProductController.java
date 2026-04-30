@@ -23,7 +23,6 @@ public class ProductController {
     );
 
     @RequestMapping("/")    // This maps to the URL http://localhost:8080/products/
-    @ResponseBody
     public String home(){
         return "welcome to the menu pagehome";
     }
@@ -35,7 +34,6 @@ public class ProductController {
     }
 
     @RequestMapping("/details/{id}")     // This maps to the URL http://localhost:8080/products/details/{id}
-    @ResponseBody
     public String getProductDetails(@PathVariable int id) {
         for (Product product : productList) {
             if (product.getId() == id) {
