@@ -2,25 +2,32 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <title>Add New Product</title>
+  <link rel="stylesheet" th:href="@{/css/add-new-product.css}">
 </head>
-    <body>
-    <!-- O caminho deve incluir /products -->
-        <form th:action="@{/products/addNewProduct}" th:object="${product}" method="post">
-            <label>ID:</label>
-            <input type="number" th:field="*{id}">
-            <br>
+<body>
+    <h1>Add New Product</h1>
+    <!-- O ID será gerado automaticamente -->
+    <form th:action="@{/products/addNewProduct}" th:object="${product}" method="post">
 
-            <label>Name:</label>
-            <input type="text" th:field="*{name}">
-            <br>
+        <!-- ID é gerado automaticamente, não precisa de input -->
+        <input type="hidden" th:field="*{id}">
 
-            <label>Price:</label>
-            <input type="number" step="0.01" th:field="*{price}">
-            <br>
+        <div class="form-group">
+            <label for="name">Product Name:</label>
+            <input type="text" id="name" th:field="*{name}" placeholder="Enter product name" required>
+        </div>
+        <br>
 
-            <button type="submit">Add Product</button>
-        </form>
+        <div class="form-group">
+            <label for="price">Price ($):</label>
+            <input type="number" id="price" step="0.01" th:field="*{price}" placeholder="Enter product price" required>
+        </div>
+        <br>
 
-    </body>
+        <button type="submit">Add Product</button>
+        <a href="/products/list">Cancel</a>
+    </form>
+
+</body>
 </html>

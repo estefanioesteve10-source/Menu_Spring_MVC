@@ -9,11 +9,13 @@ import org.springframework.ui.Model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Controller
 @RequestMapping("/products")    // This means all URLs start with http://localhost:8080/products/
 public class ProductController {
 
+    private AtomicInteger nextId = new AtomicInteger(5);
     private List<Product> productList = new ArrayList<>(List.of(
             new Product(1, "Espresso", 2.50),
             new Product(2, "Cappuccino", 3.00),
@@ -52,8 +54,13 @@ public class ProductController {
 
     @PostMapping("/addNewProduct")  // Handles the form submission
     public String addProduct(@ModelAttribute("product") Product product) {
+        // Auto-generate ID if not provided
+        if (product.getId() <= 0) {
+            product.setId(nextId.getAndIncrement());
+        }
         productList.add(product);  // Adds the submitted product to productsList
-        System.out.println(productList);  // Logs the updated product list
+        System.out.println("Product added: " + product.getName() + " - Price: $" + product.getPrice() + " - ID: " + product.getId());
+        System.out.println("Current product list: " + productList);
         return "redirect:/products/list";  // Redirects back to the main product list view
     }
 
